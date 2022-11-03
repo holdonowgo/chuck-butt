@@ -15,6 +15,7 @@
   "dependencies": {
     "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
     "@types/pg": "^8.6.5",
+    "@typescript-eslint/parser": "^5.42.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

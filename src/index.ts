@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express';
+import { postgraphile, PostGraphileOptions } from 'postgraphile';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
@@ -6,7 +7,6 @@ import * as bodyParser from 'body-parser';
 dotenv.config();
 
 const app: Express = express();
-import { postgraphile, PostGraphileOptions } from 'postgraphile';
 
 const { PORT } = process.env
 
@@ -49,7 +49,6 @@ app.use(
 );
 
 app.get('/', (req: Request, res: Response) => {
-  // console.log(req);
   res.send('Express + TypeScript Server the terminal is watching you');
 });
 
