@@ -1,12 +1,4 @@
 DROP function IF EXISTS public.authenticate;
-DROP TYPE IF EXISTS public.jwt_token;
-CREATE TYPE public.jwt_token as (
-  role text,
-  exp integer,
-  uuid uuid,
-  is_admin boolean,
-  username varchar
-);
 CREATE function public.authenticate(email text, password text) returns public.jwt_token as $$
 declare account private.users;
 begin

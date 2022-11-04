@@ -1,3 +1,11 @@
+DROP TYPE IF EXISTS public.jwt_token;
+CREATE TYPE public.jwt_token as (
+  role text,
+  exp integer,
+  uuid uuid,
+  is_admin boolean,
+  username varchar
+);
 DROP FUNCTION IF EXISTS SIGNUP;
 CREATE FUNCTION SIGNUP(username TEXT, email TEXT, password TEXT) RETURNS jwt_token AS $$
 DECLARE token_information jwt_token;
