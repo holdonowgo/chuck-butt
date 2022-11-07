@@ -1,5 +1,5 @@
 DROP FUNCTION IF EXISTS public.signup;
-DROP function IF EXISTS public.authenticate;
+DROP FUNCTION IF EXISTS public.authenticate;
 DROP TYPE IF EXISTS public.jwt_token;
 CREATE TYPE public.jwt_token as (
   role text,
@@ -8,7 +8,15 @@ CREATE TYPE public.jwt_token as (
   is_admin boolean,
   username varchar
 );
-CREATE FUNCTION public.signup(username TEXT, email TEXT, password TEXT) RETURNS jwt_token AS $$
+CREATE FUNCTION public.signup(
+  username TEXT,
+  email TEXT,
+  password TEXT,
+  bio TEXT,
+  dob DATE,
+  profile_img TEXT,
+  bg_img TEXT
+) RETURNS jwt_token AS $$
 DECLARE token_information jwt_token;
 BEGIN
 INSERT INTO private.user (
@@ -34,17 +42,17 @@ SELECT 'anonymous',
     epoch
     from now() + interval '7 days'
   ),
-  uuid,
-  is_admin,
-  username INTO token_information
-FROM private.user
-WHERE email = $2;
+  u.uuid,
+  u.is_admin,
+  u.username INTO token_information
+FROM private.user as u
+WHERE u.email = $2;
 RETURN token_information::jwt_token;
 END;
 $$ LANGUAGE PLPGSQL VOLATILE SECURITY DEFINER;
 -- grant permissions to be able to sign up
 --
-GRANT EXECUTE ON FUNCTION signup(username TEXT, email TEXT, password TEXT) TO anonymous;
+GRANT EXECUTE ON FUNCTION signup(username TEXT, email TEXT, password TEXT, bio TEXT, dob DATE, profile_img TEXT, bg_img TEXT) TO anonymous;
 CREATE function public.authenticate(email text, password text) returns public.jwt_token as $$
 declare account private.user;
 begin
