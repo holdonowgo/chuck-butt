@@ -35,5 +35,4 @@ node_modules/
 dist
 
 # Stores VSCode versions used for testing VSCode extensions
-.vscode
-.vscode-test
+.vscode*
