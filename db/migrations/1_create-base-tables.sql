@@ -1,11 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
-DROP TABLE IF EXISTS private.post CASCADE;
-DROP TABLE IF EXISTS private.follower CASCADE;
-DROP TABLE IF EXISTS private.user CASCADE;
-DROP TABLE IF EXISTS private.retweet CASCADE;
-DROP TABLE IF EXISTS private.timeline CASCADE;
-DROP TABLE IF EXISTS private.bookmark CASCADE;
-DROP TABLE IF EXISTS private.comment CASCADE;
+DROP SCHEMA IF EXISTS private CASCADE;
+CREATE SCHEMA private;
 CREATE TABLE IF NOT EXISTS private.user (
   uuid uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   username varchar NOT NULL CHECK (username <> '') UNIQUE,
