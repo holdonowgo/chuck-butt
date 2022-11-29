@@ -14,6 +14,16 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+import productionKeys from './config/production'
+import developmentKeys from './config/development'
+
+const keys = {
+  'production': productionKeys,
+  'development': developmentKeys
+};
+
+const selectedKeys = keys[process.env.NODE_ENV as 'production' | 'development'];
+
 const postgraphileOptions: PostGraphileOptions = {
   subscriptions: true,
   watchPg: true,
@@ -42,8 +52,8 @@ const postgraphileOptions: PostGraphileOptions = {
 
 app.use(
   postgraphile(
-    process.env.DATABASE_URL || 'postgres://Randall.Spencer:@localhost:5432/chuckster',
-    'public',
+    selectedKeys.databaseURL,
+    ['public', 'private'],
     { ...postgraphileOptions }
   )
 );
