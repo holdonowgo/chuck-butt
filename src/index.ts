@@ -14,15 +14,19 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-import productionKeys from './config/production'
-import developmentKeys from './config/development'
+import productionKeys from '../config/production'
+import developmentKeys from '../config/development'
+import { ConfigLevel, IEnvConfig } from '../config/config';
 
-const keys = {
-  'production': productionKeys,
-  'development': developmentKeys
+type EnvConfigMap = { [level in ConfigLevel]: IEnvConfig };
+
+const mappedEnvConfigs: EnvConfigMap = {
+  production: productionKeys,
+  development: developmentKeys,
+  test: developmentKeys,
 };
 
-const selectedKeys = keys[process.env.NODE_ENV as 'production' | 'development'];
+const envConfig = mappedEnvConfigs[process.env.NODE_ENV as ConfigLevel];
 
 const postgraphileOptions: PostGraphileOptions = {
   subscriptions: true,
@@ -52,7 +56,7 @@ const postgraphileOptions: PostGraphileOptions = {
 
 app.use(
   postgraphile(
-    selectedKeys.databaseURL,
+    envConfig.databaseURL,
     ['public', 'private'],
     { ...postgraphileOptions }
   )
