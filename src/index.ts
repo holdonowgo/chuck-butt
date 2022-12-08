@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 
+import fs from 'fs';
+
 dotenv.config();
 
 const app: Express = express();
@@ -28,6 +30,8 @@ const mappedEnvConfigs: EnvConfigMap = {
 
 const envConfig = mappedEnvConfigs[process.env.NODE_ENV as ConfigLevel];
 
+const RSA_PRIVATE_KEY = fs.readFileSync(__dirname + '/../jwtRS256.key');
+
 const postgraphileOptions: PostGraphileOptions = {
   subscriptions: true,
   watchPg: true,
@@ -51,7 +55,7 @@ const postgraphileOptions: PostGraphileOptions = {
   // },
   jwtSignOptions: { algorithm: 'RS256' },
   jwtPgTypeIdentifier: 'public.jwt_token',
-  jwtSecret: 'secret',
+  jwtSecret: RSA_PRIVATE_KEY,
 };
 
 app.use(

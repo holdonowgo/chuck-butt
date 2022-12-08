@@ -7,11 +7,11 @@ const envConfig: IEnvConfig = {
   schema: ["public", "private"],
   jwtSecret: process.env.JWT_SECRET,
   databaseURL: process.env.DATABASE_URL,
-  databaseUser: process.env.DATABASE_USER,
+  databaseUser: process.env.DATABASE_USERNAME,
   databasePassword: process.env.DATABASE_PASSWORD,
   databaseName: process.env.DATABASE_NAME,
-  host: process.env.DEV_HOST,
-  port: process.env.DEV_PORT ? parseInt(process.env.DEV_PORT) : 5432,
+  host: process.env.HOST,
+  port: process.env.PORT ? parseInt(process.env.PORT) : 5432,
   watch: true,
 }
 
