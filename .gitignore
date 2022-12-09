@@ -42,3 +42,6 @@ dist
 
 # Postgres sessions
 *.session.*
+
+# public private keys
+*.key*

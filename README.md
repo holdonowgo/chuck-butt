@@ -109,11 +109,22 @@ To get a local copy up and running follow these simple example steps.
 
 This is an example of how to list things you need to use the software and how to install them.
 
-- npm
+- Install node via nvm
+
+  [via homebrew](https://docs.brew.sh/Installation)
 
   ```sh
-  npm install npm@16 -g
-  npm install ts-node -g
+  brew update
+  brew doctor
+  brew install nvm
+  mkdir ~/.nvm
+
+  <!-- setup path -->
+  echo "export NVM_DIR=~/.nvm\nsource \$(brew --prefix nvm)/nvm.sh" >> .zshrc
+  source ~/.zshrc
+
+  <!-- show the version of nvm you have installed -->
+  nvm -v
   ```
 
 ### Database
@@ -144,32 +155,36 @@ This is an example of how to list things you need to use the software and how to
    CREATE DATABASE chuckster OWNER ${role}
    ```
 
-3. Run DB Migrations
-
-   - from root directory of project
-
-   ```sh
-   ts-node ./db/migrate.ts
-   ```
-
-4. Populate DB with seed data
-   - TBA
-
 ### Installation
 
 1. Clone the repo
 
-   ```sh
-   git clone https://github.com/holdonowgo/chuck-butt.git
-   ```
+    ```sh
+    git clone https://github.com/holdonowgo/chuck-butt.git
+    ```
 
-2. Install NPM packages
+2. Switch to proper node version
+
+    ```sh
+    $ nvm use
+
+    Found '<proj-root-dir>/.nvmrc' with version <v16>
+    N/A: version "v16 -> N/A" is not yet installed.
+
+    You need to run "nvm install v16" to install it before using it.
+
+    <!-- check the version of node you are using -->
+    $ nvm current
+    v16.17.1
+    ```
+
+3. Install NPM packages
 
    ```sh
    npm install
    ```
 
-3. Setup your local `.env` file
+4. Setup your local `.env` file
 
    - from project root dir
 
@@ -207,7 +222,7 @@ This is an example of how to list things you need to use the software and how to
     DATABASE_PASSWORD=prodpassword
    ```
 
-4. Create pub/priv keys
+5. Create pub/priv keys
 
    - This key will be used as the JWT secret to sign JWT tokens
 
@@ -226,6 +241,17 @@ This is an example of how to list things you need to use the software and how to
     ```ts
     const RSA_PRIVATE_KEY = fs.readFileSync(__dirname + '/../jwtRS256.key');
     ```
+
+6. Run DB Migrations
+
+   - from root directory of project
+
+   ```sh
+   ts-node ./db/migrate.ts
+   ```
+
+7. Populate DB with seed data
+   - TBA
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
