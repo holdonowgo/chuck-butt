@@ -11,3 +11,4 @@ export interface IEnvConfig {
 }
 
 export type ConfigLevel = 'development' | 'test' | 'production'
+export type EnvConfigMap = { [level in ConfigLevel]: IEnvConfig };

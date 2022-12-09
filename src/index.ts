@@ -18,9 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 import productionKeys from '../config/production'
 import developmentKeys from '../config/development'
-import { ConfigLevel, IEnvConfig } from '../config/config';
+import { ConfigLevel, EnvConfigMap } from '../config/config';
 
-type EnvConfigMap = { [level in ConfigLevel]: IEnvConfig };
 
 const mappedEnvConfigs: EnvConfigMap = {
   production: productionKeys,

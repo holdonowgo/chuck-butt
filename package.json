@@ -4,6 +4,7 @@
   "description": "Backend microservice for Chuckster frontend",
   "main": "src/index.ts",
   "scripts": {
+    "prepare": "npm install npm@16 -g && npm install ts-node -g",
     "test": "test",
     "build": "npx tsc",
     "start": "node dist/src/index.js",
