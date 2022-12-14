@@ -1,6 +1,20 @@
 import { migrate } from "postgres-migrations"
 import pg from "pg"
 
+import productionKeys from '../config/production'
+import developmentKeys from '../config/development'
+import { ConfigLevel, EnvConfigMap } from '../config/config';
+
+
+
+const mappedEnvConfigs: EnvConfigMap = {
+  production: productionKeys,
+  development: developmentKeys,
+  test: developmentKeys,
+};
+
+const envConfig = mappedEnvConfigs[process.env.NODE_ENV as ConfigLevel];
+
 // // If you want sane date handling, it is recommended you use the following code snippet to fix a node - postgres bug:
 // const pg = require("pg")
 // const parseDate = (val) =>
@@ -11,12 +25,12 @@ import pg from "pg"
 // })
 
 (async function (): Promise<void> {
-  const dbConfig = {
-    database: "chuckster",
-    user: "Randall.Spencer",
-    password: "",
-    host: "localhost",
-    port: 5432,
+  const dbConfig: pg.ClientConfig = {
+    database: envConfig.databaseName,
+    user: envConfig.databaseUser,
+    password: envConfig.databasePassword,
+    host: envConfig.host,
+    port: envConfig.port || 5432,
   }
 
   // Note: when passing a client, it is assumed that the database already exists

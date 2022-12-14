@@ -36,3 +36,12 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode*
+
+# Postgraphile options
+.postgraphilerc.js
+
+# Postgres sessions
+*.session.*
+
+# public private keys
+*.key*

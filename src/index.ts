@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 
+import fs from 'fs';
+
 dotenv.config();
 
 const app: Express = express();
@@ -13,6 +15,21 @@ const { PORT } = process.env
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+import productionKeys from '../config/production'
+import developmentKeys from '../config/development'
+import { ConfigLevel, EnvConfigMap } from '../config/config';
+
+
+const mappedEnvConfigs: EnvConfigMap = {
+  production: productionKeys,
+  development: developmentKeys,
+  test: developmentKeys,
+};
+
+const envConfig = mappedEnvConfigs[process.env.NODE_ENV as ConfigLevel];
+
+const RSA_PRIVATE_KEY = fs.readFileSync(__dirname + '/../jwtRS256.key');
 
 const postgraphileOptions: PostGraphileOptions = {
   subscriptions: true,
@@ -37,13 +54,13 @@ const postgraphileOptions: PostGraphileOptions = {
   // },
   jwtSignOptions: { algorithm: 'RS256' },
   jwtPgTypeIdentifier: 'public.jwt_token',
-  jwtSecret: 'secret',
+  jwtSecret: RSA_PRIVATE_KEY,
 };
 
 app.use(
   postgraphile(
-    process.env.DATABASE_URL || 'postgres://Randall.Spencer:@localhost:5432/chuckster',
-    'public',
+    envConfig.databaseURL,
+    ['public', 'private'],
     { ...postgraphileOptions }
   )
 );
